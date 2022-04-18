@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="meth" nsURI="http://www.meth.hvbargen/Meth" nsPrefix="meth">
+  <eClassifiers xsi:type="ecore:EClass" name="Model">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="einheitensystem" eType="#//Einheitensystem"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="methoden" upperBound="-1"
+        eType="#//Methode" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Einheitensystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="deklarationen" upperBound="-1"
+        eType="#//Deklaration" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Deklaration"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Dimension" eSuperTypes="#//Deklaration">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="basis" eType="#//DimensionExpr"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DimensionExpr">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="#//Dimension"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Einheit" eSuperTypes="#//Deklaration">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="#//Dimension"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="faktor" eType="#//EinheitExpr"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="basiseinheit" eType="#//Einheit"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Umrechnung" eSuperTypes="#//Deklaration">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="varname" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="vonEinheit" eType="#//Einheit"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ausdruck" eType="#//EinheitExpr"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nachEinheit" eType="#//Einheit"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Konstante" eSuperTypes="#//Deklaration">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ausdruck" eType="#//EinheitExpr"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Zahl" eSuperTypes="#//EinheitExpr"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Ganzzahl" eSuperTypes="#//Zahl">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="iwert" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Dezimalzahl" eSuperTypes="#//Zahl">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fwert" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EinheitExpr">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="varref" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Methode">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bezeichnung" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ablauf" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Gegeben">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statements" upperBound="-1"
+        eType="#//GegebenStatement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Eingabe">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statements" upperBound="-1"
+        eType="#//EingabeStatement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Berechnung">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statements" upperBound="-1"
+        eType="#//BerechnungStatement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Ausgabe">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statements" upperBound="-1"
+        eType="#//AusgabeStatement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GegebenStatement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="eingabename" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="einheit" eType="#//EinheitExpr"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refMethode" eType="#//Methode"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bezeichnung" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EingabeStatement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="eingabename" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="einheit" eType="#//EinheitExpr"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bezeichnung" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BerechnungStatement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="berechnungname" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="formel" eType="#//Formel"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bezeichnung" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AusgabeStatement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ausgabename" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="einheit" eType="#//EinheitExpr"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bezeichnung" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Formel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TextFormel" eSuperTypes="#//Formel">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tformel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NumFormel" eSuperTypes="#//Formel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nformel" eType="#//EinheitExpr"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DimensionMultiplikation" eSuperTypes="#//DimensionExpr">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="links" eType="#//DimensionExpr"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rechts" eType="#//DimensionExpr"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EinheitAddition" eSuperTypes="#//EinheitExpr">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="links" eType="#//EinheitExpr"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rechts" eType="#//EinheitExpr"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EinheitMultiplikation" eSuperTypes="#//EinheitExpr">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="links" eType="#//EinheitExpr"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rechts" eType="#//EinheitExpr"
+        containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,148 @@
+grammar hvbargen.meth.Meth
+ hidden(WS, ML_COMMENT, SL_COMMENT)
+
+generate meth "http://www.meth.hvbargen/Meth"
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+Model:
+	einheitensystem=Einheitensystem
+	methoden += Methode*;
+	
+Einheitensystem:
+	{Einheitensystem} "Einheitensystem" "{" (deklarationen += Deklaration)* "}"
+	;
+	
+Deklaration:
+	Dimension | Einheit | Umrechnung | Konstante;
+	
+Dimension:
+	'Dimension' name=ID
+	('=' basis=DimensionMultiplikation)?
+	';';
+
+DimensionMultiplikation returns DimensionExpr:
+  DimensionPrimary ({DimensionMultiplikation.links=current} operator=('*'|'/') rechts=DimensionPrimary)*;
+  
+DimensionPrimary returns DimensionExpr:
+  '(' DimensionMultiplikation ')' | ref=[Dimension];
+
+Einheit:
+	'Einheit' name=ID
+	(
+		('in' ref=[Dimension]) 
+		| 
+		('=' faktor=EinheitMultiplikation (basiseinheit=[Einheit])?)
+	) ';'
+	;
+	
+Umrechnung:
+	'Umrechnung' 
+	varname=ID vonEinheit=[Einheit] 
+	'=' ausdruck=EinheitAddition nachEinheit=[Einheit] ';'
+;
+
+Konstante:
+	'Konstante'
+	name=ID '=' ausdruck=EinheitAddition ';'
+;
+
+Zahl:
+	Ganzzahl|Dezimalzahl;
+
+Ganzzahl:
+	iwert = GANZ;
+	
+Dezimalzahl:
+	fwert = DEZIMAL;
+
+terminal GANZ:
+	('+' | '-')? INT ('_' INT)*;
+	
+terminal DEZIMAL:		
+	('+' | '-')? INT ('_' INT)* '.' (INT ('_' INT)*)? (('e' | 'E') ('+'|'-')? INT ('_' INT)*)?;
+
+EinheitAddition returns EinheitExpr:
+  EinheitMultiplikation ({EinheitAddition.links=current} operator=('+'|'-') rechts=EinheitMultiplikation)*;
+  
+EinheitMultiplikation returns EinheitExpr:
+  EinheitPrimary ({EinheitMultiplikation.links=current} operator=('*'|'/') rechts=EinheitPrimary)*;
+  
+EinheitPrimary returns EinheitExpr:
+  Zahl |
+  varref=ID |
+  '(' EinheitAddition ')' ;
+  
+Methode:
+	'Methode' name=ID "als" bezeichnung=STRING '{'
+		ablauf += ( Gegeben | Eingabe | Berechnung | Ausgabe )+
+	'}'
+;
+
+Gegeben:
+	'Gegeben' '{' (statements += GegebenStatement)* '}'
+;
+
+Eingabe:
+	'Eingabe' '{' (statements += EingabeStatement)* '}'
+;
+
+Berechnung:
+	'Berechnung' '{' (statements += BerechnungStatement)* '}'
+;
+
+Ausgabe:
+	'Ausgabe' '{' (statements += AusgabeStatement)* '}'
+;
+
+GegebenStatement:
+	eingabename=ID 
+	('[' einheit=EinheitMultiplikation ']')?
+	"aus" refMethode=[Methode]
+	"als" bezeichnung=STRING ';'
+;
+
+EingabeStatement:
+	eingabename=ID '[' einheit=EinheitMultiplikation ']' "als" bezeichnung=STRING ';'
+;
+
+BerechnungStatement:
+	berechnungname=ID '=' formel=Formel "als" bezeichnung=STRING ';'
+;
+
+AusgabeStatement:
+	ausgabename=ID ('[' einheit=EinheitMultiplikation ']')? ("als" bezeichnung=STRING)? ';'
+;
+
+Formel:
+	TextFormel | NumFormel
+;
+
+TextFormel:
+	tformel = "TODO";
+
+NumFormel:
+	nformel = EinheitAddition
+;
+  
+terminal ID:
+    '$' | '€' | ('^'? 'µ'? ('a'..'z'|'A'..'Z'|'_'|'°')('a'..'z'|'A'..'Z'|'_'|'0'..'9')*('²'|'³')?);
+ 
+terminal INT:
+    ('0'..'9')+;
+ 
+terminal STRING:
+    '"' ( '\\'('b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\') | !('\\'|'"') )* '"' |
+    "'" ( '\\'('b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\') | !('\\'|"'") )* "'";
+ 
+terminal ML_COMMENT:
+    '/*' -> '*/';
+ 
+terminal SL_COMMENT:
+    '//' !('\n'|'\r')* ('\r'? '\n')?;
+ 
+terminal WS:
+    (' '|'\t'|'\r'|'\n')+;
+ 
+terminal ANY_OTHER:
+    .;

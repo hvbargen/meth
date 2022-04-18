@@ -1,0 +1,102 @@
+Einheitensystem
+{
+	Dimension Zahl;
+	Dimension Winkel = Zahl;
+	Dimension Anzahl = Zahl;
+	
+	Dimension Masse;
+	
+	Dimension Strecke;
+	Dimension Laenge = Strecke;
+	Dimension Breite = Strecke;
+	Dimension Hoehe = Strecke;
+	
+	Dimension Flaeche = Strecke*Strecke;
+	Dimension Volumen = Strecke*Strecke*Strecke;
+	
+	Dimension Zeit;
+	
+	Dimension Temperatur;
+	
+	Dimension Geld;
+	Dimension Euro = Geld;
+	Dimension Dollar = Geld;
+	
+	Einheit $ in Dollar;
+	Einheit € in Euro;
+	Einheit EUR = €;
+	Einheit ct = 1/100 €; 
+	Einheit USD = $;
+
+	Dimension Geschwindigkeit = Strecke / Zeit; 
+	
+	Einheit kg in Masse;
+	Einheit t = 1000 kg;
+	Einheit g = (1 / 1000) kg;
+	
+	Einheit m in Laenge;
+	Einheit km = 1000 m; 
+	Einheit mm = (1 / 1_000) m;
+	Einheit cm = (1 / 100) m;
+	
+	Einheit m² = m * m;
+	Einheit qm = m²;
+	Einheit m³ = m * m * m;
+	Einheit cm³ = cm * cm * cm;
+	Einheit l = 1000 * cm³;
+	// Alternativ: l = 10 * cm * 10 * cm * 10 * cm
+
+	Einheit ° in Winkel;
+	Einheit rad in Winkel; 
+	
+	Umrechnung x ° = (3.141_592_654 / 180) * x rad;
+	 
+	Einheit °C in Temperatur;
+	Einheit K in Temperatur;  
+ 
+	Umrechnung x K = (x - 273.13) °C;
+	Umrechnung x °C = (x + 273.13) K;
+	
+	Umrechnung x m = x * 100 m;
+	
+	Einheit Stueck in Anzahl;
+	Einheit Tsd = 1000 Stueck;
+	
+	Konstante Pi = 3.141592654; 
+	Konstante e = 2.71828;
+ }
+ Methode Erste_Methode als "Beispielmethode" {
+ 	Eingabe {
+ 		C [kg] als "Kohlenstoff";
+ 		H [g] als "Wasserstoff"; 
+ 		N [g] als "Stickstoff";
+ 		O [g] als "Sauerstoff";
+ 		S [g] als "Schwefel";
+ 	}
+ 	Berechnung {
+ 		CHNOS = C+H+N+O+S als "CHNOS";
+ 	}
+ 	Ausgabe {
+ 		CHNOS [g] als "CHNOS";
+ 	}
+ }
+ 
+ Methode DICHTE als "Dichtebestimmung" {  
+ 	Gegeben {
+ 		 CHNOS aus Erste_Methode als "Bezugswert";
+ 	}
+ 	Eingabe {
+ 		EW [g] als "Einwaage";
+ 	 	AW [g] als "Auswaage"; 
+ 		V [l] als "Volumen";
+ 		DUMMY [Zahl] als "Dummy";
+ 	}
+ 	Berechnung {
+ 		FG = EW - AW als "Flüssigkeitsgewicht";
+ 		D = EW / V als "Dichte";
+ 	}
+ 	Ausgabe {
+ 		D [kg/m³] als "Dichte";
+ 		CHNOS [kg] als "CHNOS";
+ 	}
+}
